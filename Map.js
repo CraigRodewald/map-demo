@@ -11,8 +11,9 @@ var MapFcns = {
             var newOption = $('<option value="' + sites[i].Code + '">' + sites[i].Code + '</option>');
             airportList.append(newOption);
         }
+        //airportList.sort(sortByState);
     },
-    
+
     siteListChange: function() {
         var ctl = $(this),
             airportCode = ctl.val();
@@ -20,7 +21,11 @@ var MapFcns = {
                 var currAirport = _.findWhere(sites, {Code: airportCode});
                 $('#setting-code').text(currAirport.Code);
                 $('#setting-city').text(currAirport.City);
-                
+                $('#setting-state').text(currAirport.State);
+               $('#setting-airport-name').text(currAirport.FullSiteName.split("_")[2]);
+                $('#setting-lat').text(currAirport.Latitude);
+                $('#setting-long').text(currAirport.Longitude);
+
                 var marker = new google.maps.Marker({
                     position: {lat: currAirport.Latitude, lng: currAirport.Longitude},
                     map: globalMap,
@@ -28,7 +33,7 @@ var MapFcns = {
                 });
             }
     }
-}
+};
 
 
 MapFcns.loadSiteList();
@@ -50,10 +55,14 @@ $('#exercise-toggle').click(function() {
 
 
 
+function SortByState(a, b){
+  var aName = a.State.toLowerCase();
+  var bName = b.State.toLowerCase();
+  return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+}
 
 
 
-    
 function  initMap() {
   // Callback function to create a map object and specify the DOM element for display.
   globalMap = new google.maps.Map(document.getElementById('airport-map'), {
@@ -61,5 +70,5 @@ function  initMap() {
     scrollwheel: true,
     zoom: 6
   });
-  
+
     }
