@@ -1,4 +1,5 @@
 var globalMap;
+var markers = [];
 
 $(function() {
 
@@ -31,10 +32,11 @@ var MapFcns = {
                     map: globalMap,
                     title: currAirport.Code
                 });
+                markers.unshift(marker);
+                console.log(markers);
             }
     }
 };
-
 
 MapFcns.loadSiteList();
 $('#airport-list').change(MapFcns.siteListChange);
@@ -52,14 +54,11 @@ $('#exercise-toggle').click(function() {
 
 });
 
-
-
-
 function SortByState(a, b){
   var aName = a.State.toLowerCase();
   var bName = b.State.toLowerCase();
   return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
-}
+  }
 
 
 
@@ -71,4 +70,30 @@ function  initMap() {
     zoom: 6
   });
 
+    }
+
+    function setMapOnAll(globalMap) {
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(globalMap);
+      }
+    }
+
+    function clearMarkers() {
+      setMapOnAll(null);
+    }
+
+    function showMarkers() {
+      setMapOnAll(globalMap);
+    }
+
+    function removeMarkers() {
+      markers.splice(0,1);
+      clearMarkers();
+      initMap();
+      showMarkers();
+    }
+
+    function deleteMarkers() {
+      clearMarkers();
+      markers = [];
     }
