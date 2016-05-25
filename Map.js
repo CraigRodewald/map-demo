@@ -8,11 +8,11 @@ var MapFcns = {
         var airportList = $('#airport-list');
             airportList.html('');
             airportList.append('<option value=""></option>');
+            sites.sort(SortByCode);
         for (var i in sites) {
             var newOption = $('<option value="' + sites[i].Code + '">' + sites[i].Code + '</option>');
             airportList.append(newOption);
         }
-        //airportList.sort(sortByState);
     },
 
     siteListChange: function() {
@@ -33,7 +33,7 @@ var MapFcns = {
                     title: currAirport.Code
                 });
                 markers.unshift(marker);
-                console.log(markers);
+                //console.log(markers);
             }
     }
 };
@@ -54,13 +54,11 @@ $('#exercise-toggle').click(function() {
 
 });
 
-function SortByState(a, b){
-  var aName = a.State.toLowerCase();
-  var bName = b.State.toLowerCase();
-  return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+function SortByCode(a, b){
+   var aCode = a.Code.toLowerCase();
+   var bCode = b.Code.toLowerCase();
+  return ((aCode < bCode) ? -1 : ((aCode > bCode) ? 1 : 0));
   }
-
-
 
 function  initMap() {
   // Callback function to create a map object and specify the DOM element for display.
